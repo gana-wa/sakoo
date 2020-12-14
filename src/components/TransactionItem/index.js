@@ -2,22 +2,23 @@ import React from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import defaultImg from '../../assets/Dummy/default.png'
 
-const ProductItem = ({ navigation, productName, price, discount }) => {
+const TransactionItem = ({ navigation, productName, price, discount }) => {
    return (
       <Pressable >
          <View style={styles.containerProduct}>
-            <Image source={defaultImg} style={styles.imageProduct} />
             <View style={styles.containerTextProduct}>
-               <Text>{productName}</Text>
-               <Text style={{ fontWeight: 'bold' }}>{`Rp ${price}`}</Text>
-               <Text>Discount 10%</Text>
+               <Text style={styles.textItem}>{productName}</Text>
+               <Text style={{ ...styles.textItem, fontWeight: 'bold' }}>{`Rp ${price}`}</Text>
+            </View>
+            <View>
+               <Text style={styles.textItem}>26 Mei 2020</Text>
             </View>
          </View>
       </Pressable>
    )
 }
 
-export default ProductItem
+export default TransactionItem
 
 const styles = StyleSheet.create({
    containerProduct: {
@@ -25,22 +26,21 @@ const styles = StyleSheet.create({
       elevation: 3,
       borderRadius: 10,
       paddingHorizontal: 20,
+      paddingVertical: 20,
       marginHorizontal: 15,
       marginVertical: 10,
       height: 100,
       // flex: 1,
       flexDirection: 'row',
-      alignItems: 'center',
-   },
-   imageProduct: {
-      width: 80,
-      height: 80,
-      borderRadius: 5,
+      justifyContent: 'space-between',
+      // alignItems: 'center',
    },
    containerTextProduct: {
-      marginLeft: 20,
-      height: 70,
+      // marginLeft: 20,
+      // height: 70,
       justifyContent: 'space-between',
    },
-
+   textItem: {
+      fontSize: 16,
+   }
 })

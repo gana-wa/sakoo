@@ -1,11 +1,11 @@
+import { NavigationContainer } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Badge } from 'react-native-elements';
 import Feather from 'react-native-vector-icons/dist/Feather';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons'
 
-const Header = ({ headerText = "Header", canGoBack }) => {
-   // const [canGoBack, setCanGoBack] = useState(true);
+const Header = ({ headerText = "Header", canGoBack, navigation }) => {
    const IconCart = <Feather name="shopping-cart" size={30} color="#95a5a6" />
    const IconBack = <MaterialIcons name="arrow-back-ios" size={25} color="#7f8c8d" />
    return (
@@ -19,7 +19,9 @@ const Header = ({ headerText = "Header", canGoBack }) => {
             <Text style={styles.textHeader}>{headerText}</Text>
          </View>
          <View>
-            {IconCart}
+            <Pressable onPress={() => navigation.navigate("Detail Produk")}>
+               {IconCart}
+            </Pressable>
             <Badge
                status="error"
                value="10"

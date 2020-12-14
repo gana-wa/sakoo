@@ -1,13 +1,10 @@
-import 'react-native-gesture-handler';
-import React from 'react';
-import { SplashScreen, ListProduct, Transaction, DetailProduct, Home } from './pages';
 import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
+import 'react-native-gesture-handler';
+import { DetailProduct, Home } from './pages';
 
 const Stack = createStackNavigator();
-
-const Tab = createMaterialTopTabNavigator();
 
 const App = () => {
   return (

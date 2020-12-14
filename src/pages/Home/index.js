@@ -1,8 +1,10 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { ListProduct, Transaction } from '..';
+// import { ListProduct, Transaction } from '../';
 import { Header } from '../../components';
+import ListProduct from '../ListProduct';
+import Transaction from '../Transaction';
 
 
 const Tab = createMaterialTopTabNavigator();

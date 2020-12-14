@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { ListProduct, Transaction } from '..';
+import { Header } from '../../components';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -9,9 +10,7 @@ const Tab = createMaterialTopTabNavigator();
 const Home = () => {
    return (
       <>
-         <View>
-            <Text>Test</Text>
-         </View>
+         <Header headerText="Home" />
          <Tab.Navigator>
             <Tab.Screen name="Produk" component={ListProduct} />
             <Tab.Screen name="Trasaksi" component={Transaction} />

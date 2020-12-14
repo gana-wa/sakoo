@@ -2,13 +2,13 @@ import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import defaultImg from '../../assets/Dummy/default.png'
 
-const ProductItem = () => {
+const ProductItem = ({ productName, price, discount }) => {
    return (
       <View style={styles.containerProduct}>
          <Image source={defaultImg} style={styles.imageProduct} />
          <View style={styles.containerTextProduct}>
-            <Text>Nama Barang - kode</Text>
-            <Text style={{ fontWeight: 'bold' }}>Rp 10.000</Text>
+            <Text>{productName}</Text>
+            <Text style={{ fontWeight: 'bold' }}>{`Rp ${price}`}</Text>
             <Text>Discount 10%</Text>
          </View>
       </View>

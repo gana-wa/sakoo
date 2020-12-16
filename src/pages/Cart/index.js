@@ -1,6 +1,6 @@
 import { Picker } from '@react-native-picker/picker';
 import React, { useState } from 'react';
-import { SafeAreaView, SectionList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { SectionList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { CartItem, Header } from '../../components';
 
 const Cart = ({ navigation }) => {

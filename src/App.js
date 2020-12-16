@@ -2,15 +2,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import 'react-native-gesture-handler';
-import { DetailProduct, Home, Cart, DetailTransaction } from './pages';
+import { DetailProduct, Home, Cart, DetailTransaction, SplashScreen } from './pages';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      {/* <SplashScreen /> */}
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="SplashScreen">
+        <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
         <Stack.Screen name="Detail Produk" component={DetailProduct} options={{ headerShown: false }} />
         <Stack.Screen name="Cart" component={Cart} options={{ headerShown: false }} />

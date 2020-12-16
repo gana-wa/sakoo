@@ -4,7 +4,7 @@ import defaultImg from '../../assets/Dummy/default.png'
 
 const TransactionItem = ({ navigation, productName, price, discount }) => {
    return (
-      <Pressable >
+      <Pressable onPress={() => navigation.navigate('Detail Transaksi')}>
          <View style={styles.containerProduct}>
             <View style={styles.containerTextProduct}>
                <Text style={styles.textItem}>{productName}</Text>

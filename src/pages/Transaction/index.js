@@ -20,9 +20,9 @@ const DATA = [
    },
 ];
 
-const Transaction = () => {
+const Transaction = ({ navigation }) => {
    const renderItem = ({ item }) => (
-      <TransactionItem productName={item.productName} price={item.price} />
+      <TransactionItem productName={item.productName} price={item.price} navigation={navigation} />
    );
    return (
       <SafeAreaView>

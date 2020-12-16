@@ -117,10 +117,6 @@ const styles = StyleSheet.create({
    containerMain: {
       flex: 1,
    },
-   containterStore: {
-      backgroundColor: 'blue',
-      // flex: 1,
-   },
    containerTextStore: {
       backgroundColor: '#fff',
       marginHorizontal: 10,
@@ -132,37 +128,7 @@ const styles = StyleSheet.create({
       borderTopRightRadius: 10,
    },
    textStore: {
-      // backgroundColor: '#fff',
-      // marginHorizontal: 15,
       fontSize: 16,
-      // marginBottom: 5,
-   },
-   containerItemList: {
-      marginHorizontal: 10,
-      backgroundColor: '#fff',
-      borderRadius: 10,
-   },
-   containerProduct: {
-      // backgroundColor: '#fff',
-      // elevation: 3,
-      borderRadius: 10,
-      paddingHorizontal: 20,
-      // marginHorizontal: 15,
-      marginVertical: 10,
-      // height: 100,
-      // flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center',
-   },
-   imageProduct: {
-      width: 80,
-      height: 80,
-      borderRadius: 5,
-   },
-   containerTextProduct: {
-      marginLeft: 20,
-      height: 70,
-      justifyContent: 'space-between',
    },
    containerShipmentInfo: {
       backgroundColor: '#fff',
@@ -178,8 +144,6 @@ const styles = StyleSheet.create({
       marginHorizontal: 20,
    },
    pickerShipment: {
-      // backgroundColor: 'yellow',
-      // marginHorizontal: 15,
    },
    containerShippingCost: {
       marginVertical: 10,
@@ -201,11 +165,12 @@ const styles = StyleSheet.create({
       borderTopRightRadius: 10,
       borderTopLeftRadius: 10,
       backgroundColor: '#fff',
+      marginHorizontal: 10,
    },
    textTotal: {
       fontSize: 16,
       fontWeight: 'bold',
-      marginHorizontal: 25,
+      marginHorizontal: 15,
       textAlign: 'right',
       marginVertical: 20,
    },
@@ -225,8 +190,8 @@ const styles = StyleSheet.create({
       marginBottom: 10,
    },
    btnBuyText: {
-      fontSize: 20,
-      // fontWeight: 'bold',
+      fontSize: 18,
+      fontWeight: 'bold',
       color: '#fff',
    },
 })

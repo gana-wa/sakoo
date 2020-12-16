@@ -4,7 +4,7 @@ import defaultImg from '../../assets/Dummy/default.png'
 
 const ProductItem = ({ navigation, productName, price, discount }) => {
    return (
-      <Pressable >
+      <Pressable onPress={() => navigation.navigate("Detail Produk")}>
          <View style={styles.containerProduct}>
             <Image source={defaultImg} style={styles.imageProduct} />
             <View style={styles.containerTextProduct}>
@@ -42,5 +42,4 @@ const styles = StyleSheet.create({
       height: 70,
       justifyContent: 'space-between',
    },
-
 })

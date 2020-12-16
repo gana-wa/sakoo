@@ -1,33 +1,36 @@
-import { NavigationContainer } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Badge } from 'react-native-elements';
 import Feather from 'react-native-vector-icons/dist/Feather';
-import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons'
+import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 
-const Header = ({ headerText = "Header", canGoBack, navigation }) => {
+const Header = ({ headerText = "Header", canGoBack, navigation, cartShown = true }) => {
    const IconCart = <Feather name="shopping-cart" size={30} color="#95a5a6" />
    const IconBack = <MaterialIcons name="arrow-back-ios" size={25} color="#7f8c8d" />
    return (
       <View style={styles.containerMain}>
          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             {canGoBack ? (
-               <View style={styles.containerIconBack}>
-                  {IconBack}
-               </View>
+               <Pressable onPress={() => navigation.goBack()}>
+                  <View style={styles.containerIconBack}>
+                     {IconBack}
+                  </View>
+               </Pressable>
             ) : null}
             <Text style={styles.textHeader}>{headerText}</Text>
          </View>
-         <View>
-            <Pressable onPress={() => navigation.navigate("Detail Produk")}>
-               {IconCart}
-            </Pressable>
-            <Badge
-               status="error"
-               value="10"
-               containerStyle={{ position: 'absolute', top: -4, right: -4 }}
-            />
-         </View>
+         {cartShown ? (
+            <View>
+               <Pressable onPress={() => navigation.navigate("Cart")}>
+                  {IconCart}
+               </Pressable>
+               <Badge
+                  status="error"
+                  value="10"
+                  containerStyle={{ position: 'absolute', top: -4, right: -4 }}
+               />
+            </View>
+         ) : (null)}
       </View>
    )
 }
@@ -40,7 +43,8 @@ const styles = StyleSheet.create({
       padding: 20,
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
+      elevation: 3,
    },
    textHeader: {
       fontSize: 20,

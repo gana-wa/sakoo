@@ -9,10 +9,10 @@ import Transaction from '../Transaction';
 
 const Tab = createMaterialTopTabNavigator();
 
-const Home = () => {
+const Home = ({ navigation }) => {
    return (
       <>
-         <Header headerText="Home" />
+         <Header headerText="Home" navigation={navigation} />
          <Tab.Navigator>
             <Tab.Screen name="Produk" component={ListProduct} />
             <Tab.Screen name="Trasaksi" component={Transaction} />

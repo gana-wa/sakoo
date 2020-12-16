@@ -1,7 +1,6 @@
-import React from 'react'
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
-import { ProductItem } from '../../components'
+import React from 'react';
+import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
+import { ProductItem } from '../../components';
 
 const DATA = [
    {
@@ -22,9 +21,9 @@ const DATA = [
 ];
 
 
-const ListProduct = () => {
+const ListProduct = ({ navigation }) => {
    const renderItem = ({ item }) => (
-      <ProductItem productName={item.productName} price={item.price} />
+      <ProductItem productName={item.productName} price={item.price} navigation={navigation} />
    );
    return (
       <SafeAreaView>

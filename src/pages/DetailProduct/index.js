@@ -3,10 +3,10 @@ import { Image, SafeAreaView, StyleSheet, Text, TouchableHighlight, TouchableOpa
 import defaultImg from '../../assets/Dummy/default.png'
 import { Header } from '../../components'
 
-const DetailProduct = () => {
+const DetailProduct = ({ navigation }) => {
    return (
       <SafeAreaView style={styles.containerMain}>
-         <Header headerText="Detail Produk" canGoBack={true} />
+         <Header headerText="Detail Produk" canGoBack={true} navigation={navigation} />
          <Image source={defaultImg} style={{ height: 300, width: '100%' }} />
          <View style={styles.containerItem}>
             <Text style={styles.textName}>Nama Barang - Kode Barang</Text>

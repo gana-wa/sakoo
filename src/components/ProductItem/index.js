@@ -2,15 +2,15 @@ import React from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import defaultImg from '../../assets/Dummy/default.png'
 
-const ProductItem = ({ navigation, productName, price, discount }) => {
+const ProductItem = ({ navigation, productName, price, discount, image }) => {
    return (
       <Pressable onPress={() => navigation.navigate("Detail Produk")}>
          <View style={styles.containerProduct}>
-            <Image source={defaultImg} style={styles.imageProduct} />
+            <Image source={{ uri: image }} style={styles.imageProduct} />
             <View style={styles.containerTextProduct}>
                <Text>{productName}</Text>
                <Text style={{ fontWeight: 'bold' }}>{`Rp ${price}`}</Text>
-               <Text>Discount 10%</Text>
+               <Text>{discount}</Text>
             </View>
          </View>
       </Pressable>

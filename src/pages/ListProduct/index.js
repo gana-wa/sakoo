@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
 import { ProductItem } from '../../components';
 
 const DATA = [
@@ -20,15 +21,17 @@ const DATA = [
    },
 ];
 
-
 const ListProduct = ({ navigation }) => {
    const renderItem = ({ item }) => (
-      <ProductItem productName={item.productName} price={item.price} navigation={navigation} />
+      <ProductItem productName={item.name} image={item.image} price={item.price} discount={item.voucher ? (item.voucher.name) : (null)} navigation={navigation} />
    );
+
+   const productReducer = useSelector(state => state.productReducer.product)
+
    return (
       <SafeAreaView>
          <FlatList
-            data={DATA}
+            data={productReducer}
             renderItem={renderItem}
          />
       </SafeAreaView>

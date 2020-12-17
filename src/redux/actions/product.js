@@ -28,3 +28,17 @@ export const addProductToCart = (data) => {
       payload: data,
    };
 };
+
+export const fetchExpeditions = () => {
+   return {
+      type: actions.fetchExpeditions,
+      payload: api.fetchExpedition(),
+   }
+}
+
+export const setExpedition = (data) => {
+   return {
+      type: actions.setExpedition,
+      payload: data,
+   };
+};

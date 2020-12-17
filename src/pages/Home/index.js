@@ -7,7 +7,7 @@ import ListProduct from '../ListProduct';
 import Transaction from '../Transaction';
 import Axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { fetchProduct } from '../../redux/actions/product';
+import { fetchExpeditions, fetchProduct } from '../../redux/actions/product';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -15,7 +15,9 @@ const Home = ({ navigation }) => {
    const dispatch = useDispatch();
    useEffect(() => {
       dispatch(fetchProduct());
+      dispatch(fetchExpeditions());
    }, []);
+
    return (
       <>
          <Header headerText="Home" navigation={navigation} />

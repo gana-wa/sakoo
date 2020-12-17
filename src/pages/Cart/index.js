@@ -1,110 +1,72 @@
 import { Picker } from '@react-native-picker/picker';
 import React, { useState } from 'react';
 import { SectionList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { CartItem, Header } from '../../components';
+import { setExpedition } from '../../redux/actions/product'
 
 const Cart = ({ navigation }) => {
    const [shipment, setShipment] = useState(null);
 
-   const DATA = [
-      {
-         store: "Toko 1 - Alamat",
-         data: [
-            {
-               name: "Produk 1A",
-               price: 10000,
-               discount: 10,
-            },
-            {
-               name: "Produk 2A",
-               price: 20000,
-               discount: 10,
-            },
-         ],
-      },
-      {
-         store: "Toko 2 - Alamat",
-         data: [
-            {
-               name: "Produk 1B",
-               price: 10000,
-               discount: 10,
-            },
-         ],
-      },
-      {
-         store: "Toko 3 - Alamat",
-         data: [
-            {
-               name: "Produk 1C",
-               price: 10000,
-               discount: 10,
-            },
-            {
-               name: "Produk 2C",
-               price: 20000,
-               discount: 10,
-            },
-         ],
-      },
-      {
-         store: "Toko 4 - Alamat",
-         data: [
-            {
-               name: "Produk 1D",
-               price: 10000,
-               discount: 10,
-            },
-            {
-               name: "Produk 2D",
-               price: 20000,
-               discount: 10,
-            },
-         ],
-      }
-   ];
+   const dispatch = useDispatch();
+
+   const stateCart = useSelector(state => state.productReducer.cart);
+   const stateExpedition = useSelector(state => state.productReducer.shipment);
 
    return (
       <>
          <Header headerText="Keranjang" cartShown={false} canGoBack={true} navigation={navigation} />
          <View style={styles.containerMain}>
             <SectionList
-               sections={DATA}
+               sections={stateCart}
                keyExtractor={(item, index) => item + index}
                renderItem={({ item }) => <CartItem product={item} />}
-               renderSectionHeader={({ section: { store } }) => (
+               renderSectionHeader={({ section: { store_name } }) => (
                   <View style={styles.containerTextStore}>
-                     <Text style={styles.textStore}>{store}</Text>
+                     <Text style={styles.textStore}>{store_name}</Text>
                   </View>
                )}
-               renderSectionFooter={() => (
+               renderSectionFooter={(itemProduct) => (
                   <View style={styles.containerShipmentInfo}>
                      <View style={styles.containerPickerShipment}>
-                        <Picker mode="dropdown" style={styles.pickerShipment} selectedValue={shipment}
-                           onValueChange={(itemValue, itemIndex) => setShipment(itemValue)}
+                        <Picker mode="dropdown" style={styles.pickerShipment} selectedValue={itemProduct.section.expedition_id}
+                           onValueChange={(itemValue, itemIndex) => dispatch(setExpedition({
+                              store_id: itemProduct.section.store_id,
+                              expedition_id: itemValue,
+                              expedition_price: itemIndex - 1 === -1 ? ('') : (stateExpedition[itemIndex - 1].price),
+                           }))}
                         >
-                           <Picker.Item label="Pilih Ekpedisi" value={null} />
-                           <Picker.Item label="Jne" value="Jne" />
-                           <Picker.Item label="Jnt" value="Jnt" />
+                           <Picker.Item label="Pilih Ekspedisi" value="" />
+                           {stateExpedition.map(item => (
+                              <Picker.Item label={item.name} key={item.id} value={item.id} />
+                           ))}
                         </Picker>
                      </View>
                      <View style={styles.containerShippingCost}>
-                        <Text style={styles.textShippingCost}>Biaya Kirim Rp 20.000</Text>
+                        <Text style={styles.textShippingCost}>Biaya Kirim {itemProduct.section.expedition_price ? (`Rp ${itemProduct.section.expedition_price.toLocaleString('id-ID')}`) : ('-')}</Text>
                         <Text style={styles.textShippingCostTotal}>Sub Total Rp 40.000</Text>
                      </View>
                   </View>
                )}
-               ListFooterComponent={() =>
-                  <View style={styles.containerBottomItem}>
-                     <Text style={styles.textTotal}>Total Rp 70.000</Text>
-                     <TextInput placeholder="Masukan alamat pengiriman" style={styles.inputAddress} />
-                     <TouchableOpacity>
-                        <View style={styles.btnBuy}>
-                           <Text style={styles.btnBuyText}>Beli</Text>
-                        </View>
-                     </TouchableOpacity>
-                  </View>
+               ListFooterComponent={() => {
+                  return stateCart.length ? (
+                     <View style={styles.containerBottomItem}>
+                        <Text style={styles.textTotal}>Total Rp 70.000</Text>
+                        <TextInput placeholder="Masukan alamat pengiriman" style={styles.inputAddress} />
+                        <TouchableOpacity>
+                           <View style={styles.btnBuy}>
+                              <Text style={styles.btnBuyText}>Beli</Text>
+                           </View>
+                        </TouchableOpacity>
+                     </View>
+                  ) : (null)
                }
+               }
+               ListEmptyComponent={() => (
+                  <View style={styles.containerEmptyCart}>
+                     <Text style={{ fontSize: 18 }}>Keranjang masih kosong</Text>
+                  </View>
+               )}
             />
          </View >
       </>
@@ -193,5 +155,11 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: 'bold',
       color: '#fff',
+   },
+   containerEmptyCart: {
+      flex: 1,
+      // backgroundColor: 'grey',
+      alignItems: 'center',
+      justifyContent: 'center',
    },
 })

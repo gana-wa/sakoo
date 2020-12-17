@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { ToastAndroid } from 'react-native'
 import { Image, SafeAreaView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import defaultImg from '../../assets/Dummy/default.png'
@@ -31,9 +32,13 @@ const DetailProduct = ({ navigation, route }) => {
       const data = [
          {
             store_id: product.store.id,
-            products: [
+            store_name: product.store.name,
+            expedition_id: '',
+            expedition_price: '',
+            data: [
                {
                   product_id: product.id,
+                  product_name: product.name,
                   stock: quantity,
                   // price: discount ? (discount * quantity) : (product.price * quantity),
                   price: discount ? (discount) : (product.price),
@@ -79,6 +84,7 @@ const DetailProduct = ({ navigation, route }) => {
             <TouchableOpacity onPress={() => {
                // dispatch(addToCart({ ...product, quantity }))
                cartFunction(product.store.id)
+               ToastAndroid.show('Berhasil Menambahkan item!', ToastAndroid.SHORT)
             }}>
                <View style={styles.buttonAddToCart}>
                   <Text style={styles.buttonAddToCartText}>Tambah ke Keranjang</Text>

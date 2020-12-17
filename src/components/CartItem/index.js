@@ -7,11 +7,11 @@ const CartItem = ({ product }) => {
       <View style={styles.containterStore}>
          <View style={styles.containerItemList}>
             <View style={styles.containerProduct}>
-               <Image source={defaultImg} style={styles.imageProduct} />
+               <Image source={{ uri: product.image }} style={styles.imageProduct} />
                <View style={styles.containerTextProduct}>
-                  <Text>{product.name}</Text>
-                  <Text style={{ fontWeight: 'bold' }}>{`Rp 10000`}</Text>
-                  <Text>{`Discount ${product.discount}%`}</Text>
+                  <Text>{product.product_name}</Text>
+                  <Text style={{ fontWeight: 'bold' }}>{`Rp ${product.price.toLocaleString('id-ID')}`}</Text>
+                  <Text>{`${product.stock} pcs`}</Text>
                </View>
             </View>
          </View>

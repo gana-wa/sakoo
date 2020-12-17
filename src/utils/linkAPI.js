@@ -9,3 +9,7 @@ export const fetchProduct = () => {
 export const fetchProductDetail = (id) => {
    return Axios.get(`${api}/products/${id}`);
 }
+
+export const fetchExpedition = () => {
+   return Axios.get(`${api}/expeditions`);
+}

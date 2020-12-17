@@ -1,46 +1,92 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image, SafeAreaView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import defaultImg from '../../assets/Dummy/default.png'
 import { Header } from '../../components'
-import { fetchProductDetail } from '../../redux/actions/product'
+import { addToCart, fetchProductDetail, addProductToCart } from '../../redux/actions/product'
 
 const DetailProduct = ({ navigation, route }) => {
    const { productId } = route.params;
+
    const dispatch = useDispatch();
+
    useEffect(() => {
       dispatch(fetchProductDetail(productId));
    }, []);
+
+   const [quantity, setQuantity] = useState(1);
+   const [form, setForm] = useState();
+
    const product = useSelector(state => state.productReducer.productDetail);
-   const discount = product.voucher ? (Number(product.price - (product.price * (product.voucher.value / 100))).toLocaleString('id-ID')) : ('');
-   return (
+   const discount = product.voucher ? (
+      Number(product.price - (product.price * (Number(product.voucher.value) / 100))
+      )
+   )
+      : ('');
+
+   const cart = useSelector(state => state.productReducer.cart);
+
+   const cartFunction = () => {
+
+      const data = [
+         {
+            store_id: product.store.id,
+            products: [
+               {
+                  product_id: product.id,
+                  stock: quantity,
+                  // price: discount ? (discount * quantity) : (product.price * quantity),
+                  price: discount ? (discount) : (product.price),
+                  image: product.image,
+               },
+            ]
+         }
+      ];
+      dispatch(addToCart(data));
+   };
+
+   return product.name ? (
       <SafeAreaView style={styles.containerMain}>
          <Header headerText="Detail Produk" canGoBack={true} navigation={navigation} />
          <Image source={{ uri: product.image }} style={{ height: 300, width: '100%' }} />
          <View style={styles.containerItem}>
             <Text style={styles.textName}>{`${product.name} - ${product.code}`}</Text>
-            <Text style={styles.textName, { fontWeight: 'bold' }}>{`Rp ${product.price.toLocaleString('id-ID')} - ${discount}`}</Text>
+            <Text style={styles.textName, { fontWeight: 'bold' }}>{`Rp ${product.price.toLocaleString('id-ID')} - ${discount.toLocaleString('id-ID')}`}</Text>
             <Text style={styles.textName}>{`${product.store.name} - ${product.store.province}`}</Text>
             <Text style={styles.textName}>{`${product.description}`}</Text>
          </View>
-         <View style={styles.containerCounter}>
-            <TouchableHighlight style={styles.buttonCounterDisabled}>
-               <Text style={styles.buttonCounterText}>-</Text>
-            </TouchableHighlight>
-            <Text style={styles.textCounter}>1</Text>
-            <TouchableHighlight style={styles.buttonCounter}>
-               <Text style={styles.buttonCounterText}>+</Text>
-            </TouchableHighlight>
+         <View style={styles.containerCounterPrice}>
+            <Text style={styles.textSubTotal}>
+               Sub Total Rp{discount !== '' ? (discount * quantity).toLocaleString('id-ID') : (product.price * quantity).toLocaleString('id-ID')}
+            </Text>
+            <View style={styles.containerCounter}>
+               {quantity === 1 ? (
+                  <View style={styles.buttonCounterDisabled}>
+                     <Text style={styles.buttonCounterText}>-</Text>
+                  </View>
+               ) : (
+                     <TouchableHighlight style={styles.buttonCounter} onPress={() => { setQuantity(quantity - 1) }}>
+                        <Text style={styles.buttonCounterText}>-</Text>
+                     </TouchableHighlight>
+                  )}
+               <Text style={styles.textCounter}>{quantity}</Text>
+               <TouchableHighlight style={styles.buttonCounter}>
+                  <Text style={styles.buttonCounterText} onPress={() => { setQuantity(quantity + 1) }}>+</Text>
+               </TouchableHighlight>
+            </View>
          </View>
          <View style={styles.containerCartButton}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+               // dispatch(addToCart({ ...product, quantity }))
+               cartFunction(product.store.id)
+            }}>
                <View style={styles.buttonAddToCart}>
                   <Text style={styles.buttonAddToCartText}>Tambah ke Keranjang</Text>
                </View>
             </TouchableOpacity>
          </View>
-      </SafeAreaView>
-   )
+      </SafeAreaView >
+   ) : (<Text>Loading</Text>)
 }
 
 export default DetailProduct
@@ -56,13 +102,22 @@ const styles = StyleSheet.create({
    textName: {
       marginVertical: 10,
    },
-   containerCounter: {
+   containerCounterPrice: {
       flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
       paddingHorizontal: 10,
-      // backgroundColor: 'grey',
-      justifyContent: 'flex-end',
+      justifyContent: 'space-between',
+      backgroundColor: '#fff',
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
+   },
+   textSubTotal: {
+      fontSize: 16,
+   },
+   containerCounter: {
+      flexDirection: 'row',
+      alignItems: 'center',
    },
    buttonCounterDisabled: {
       backgroundColor: '#bdc3c7',
@@ -93,6 +148,7 @@ const styles = StyleSheet.create({
    containerCartButton: {
       flex: 1,
       justifyContent: 'center',
+      backgroundColor: '#fff',
    },
    buttonAddToCart: {
       // flex: 1,

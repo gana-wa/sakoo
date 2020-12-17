@@ -17,8 +17,8 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducer);
 
 export default () => {
-   // let store = createStore(indexReducer, enhancers); //global state local
-   let store = createStore(persistedReducer, enhancers); //persist storage
+   let store = createStore(reducer, enhancers); //global state local
+   // let store = createStore(persistedReducer, enhancers); //persist storage
    let persistor = persistStore(store);
    return {
       store,

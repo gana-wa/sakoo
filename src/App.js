@@ -14,17 +14,17 @@ const { persistor, store } = configureStore();
 const App = () => {
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="SplashScreen">
-            <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-            <Stack.Screen name="Detail Produk" component={DetailProduct} options={{ headerShown: false }} />
-            <Stack.Screen name="Cart" component={Cart} options={{ headerShown: false }} />
-            <Stack.Screen name="Detail Transaksi" component={DetailTransaction} options={{ headerShown: false }} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PersistGate>
+      {/* <PersistGate loading={null} persistor={persistor}> */}
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="SplashScreen">
+          <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+          <Stack.Screen name="Detail Produk" component={DetailProduct} options={{ headerShown: false }} />
+          <Stack.Screen name="Cart" component={Cart} options={{ headerShown: false }} />
+          <Stack.Screen name="Detail Transaksi" component={DetailTransaction} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      {/* </PersistGate> */}
     </Provider>
   );
 };

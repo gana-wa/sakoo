@@ -14,3 +14,17 @@ export const fetchProductDetail = (id) => {
       payload: api.fetchProductDetail(id),
    };
 };
+
+export const addToCart = (data) => {
+   return {
+      type: actions.addToCart,
+      payload: data,
+   };
+};
+
+export const addProductToCart = (data) => {
+   return {
+      type: actions.addProductToCart,
+      payload: data,
+   };
+};

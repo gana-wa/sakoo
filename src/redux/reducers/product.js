@@ -3,6 +3,7 @@ import * as actions from '../actions/actionTypes';
 const initialState = {
    product: [],
    productDetail: {},
+   cart: [],
    isPending: false,
    isSuccess: false,
    isRejected: false,
@@ -32,7 +33,7 @@ const productReducer = (state = initialState, action) => {
             isRejected: false,
             product: action.payload.data.data,
          };
-      // product detail
+      // product detail -----------------------------------------------------------------
       case actions.fetchProductDetail + actions.pending:
          return {
             ...state,
@@ -54,6 +55,50 @@ const productReducer = (state = initialState, action) => {
             isSuccess: true,
             isRejected: false,
             productDetail: action.payload.data.data,
+         };
+      // cart -----------------------------------------------------------------------
+      case actions.addToCart:
+         let newCart = [...state.cart];
+         const indexStore = newCart.findIndex(item => {
+            return item.store_id === action.payload[0].store_id
+         });
+
+         if (indexStore < 0) {
+            newCart.push(action.payload[0]);
+            return {
+               ...state,
+               isPending: false,
+               isSuccess: true,
+               isRejected: false,
+               cart: newCart,
+            };
+         } else {
+            const indexProduct = newCart[indexStore].products.findIndex(item => {
+               return item.product_id === action.payload[0].products[0].product_id;
+            });
+            if (indexProduct < 0) {
+               newCart[indexStore].products.push(action.payload[0].products[0])
+               return {
+                  ...state,
+                  isPending: false,
+                  isSuccess: true,
+                  isRejected: false,
+                  cart: newCart,
+               }
+            } else {
+               newCart[indexStore].products[indexProduct] = {
+                  ...newCart[indexStore].products[indexProduct],
+                  stock: action.payload[0].products[0].stock + newCart[indexStore].products[indexProduct].stock,
+               }
+               return {
+                  ...state,
+                  isPending: false,
+                  isSuccess: true,
+                  isRejected: false,
+                  cart: newCart,
+               }
+            }
+
          };
       default:
          return state;

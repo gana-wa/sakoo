@@ -3,10 +3,12 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Badge } from 'react-native-elements';
 import Feather from 'react-native-vector-icons/dist/Feather';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
+import { useSelector } from 'react-redux';
 
 const Header = ({ headerText = "Header", canGoBack, navigation, cartShown = true }) => {
    const IconCart = <Feather name="shopping-cart" size={30} color="#95a5a6" />
    const IconBack = <MaterialIcons name="arrow-back-ios" size={25} color="#7f8c8d" />
+   const stateCart = useSelector(state => state.productReducer.cart)
    return (
       <View style={styles.containerMain}>
          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -24,11 +26,11 @@ const Header = ({ headerText = "Header", canGoBack, navigation, cartShown = true
                <Pressable onPress={() => navigation.navigate("Cart")}>
                   {IconCart}
                </Pressable>
-               <Badge
+               {stateCart.length ? (<Badge
                   status="error"
-                  value="10"
+                  // value="10"
                   containerStyle={{ position: 'absolute', top: -4, right: -4 }}
-               />
+               />) : (null)}
             </View>
          ) : (null)}
       </View>

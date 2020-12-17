@@ -1,8 +1,10 @@
 import React from 'react';
 import { SectionList, StyleSheet, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import { CartItem, Header } from '../../components';
+import moment from 'moment'
 
-const DetailTransaction = ({ navigation }) => {
+const DetailTransaction = ({ route, navigation }) => {
 
    const DATA = [
       {
@@ -30,44 +32,40 @@ const DetailTransaction = ({ navigation }) => {
             },
          ],
       },
-      {
-         store: "Toko 3 - Alamat",
-         data: [
-            {
-               name: "Produk 1C",
-               price: 10000,
-               discount: 10,
-            },
-            {
-               name: "Produk 2C",
-               price: 20000,
-               discount: 10,
-            },
-         ],
-      },
-      {
-         store: "Toko 4 - Alamat",
-         data: [
-            {
-               name: "Produk 1D",
-               price: 10000,
-               discount: 10,
-            },
-            {
-               name: "Produk 2D",
-               price: 20000,
-               discount: 10,
-            },
-         ],
-      }
    ];
+
+   const { itemId } = route.params;
+
+   const stateTransaction = useSelector(state => state.productReducer.transaction)
+
+   const dataTransaction = stateTransaction.filter((item) => {
+      return item.id === itemId
+   })
+
+   const newData = dataTransaction[0].data.map(item => {
+      return {
+         store: item.products[0].product.store.name,
+         expedition_name: item.expedition.name,
+         expedition_price: item.expedition.price,
+         data: item.products.map(transItem => {
+            return {
+               product_name: transItem.product.name,
+               price: transItem.product.price,
+               stock: transItem.stock,
+               image: transItem.product.image,
+            }
+         })
+      }
+   });
+
+   console.log(newData);
 
    return (
       <>
          <Header headerText="Detail Transaksi" cartShown={false} canGoBack={true} navigation={navigation} />
          <View style={styles.containerMain}>
             <SectionList
-               sections={DATA}
+               sections={newData}
                keyExtractor={(item, index) => item + index}
                renderItem={({ item }) => <CartItem product={item} />}
                renderSectionHeader={({ section: { store } }) => (
@@ -79,23 +77,23 @@ const DetailTransaction = ({ navigation }) => {
                   <View style={styles.containerInvoiceText}>
                      <View style={{ flexDirection: 'row' }}>
                         <Text style={styles.textInvoice}>Invoice Number - </Text>
-                        <Text style={styles.textInvoiceBold}>xxx aaa ccc</Text>
+                        <Text style={styles.textInvoiceBold}>{dataTransaction[0].invoice_number}</Text>
                      </View>
-                     <Text style={styles.textInvoice}>26 Desember 2020</Text>
+                     <Text style={styles.textInvoice}>{moment(dataTransaction[0].created_at).format("D MMMM YYYY")}</Text>
                   </View>
                )}
-               renderSectionFooter={() => (
+               renderSectionFooter={(item) => (
                   <View style={styles.containerShipmentInfo}>
-                     <Text style={styles.textShippingAgent}>Ekpedisi yang dipilih</Text>
+                     <Text style={styles.textShippingAgent}>{item.section.expedition_name}</Text>
                      <View style={styles.containerShippingCost}>
-                        <Text style={styles.textShippingCost}>Biaya Kirim Rp 20.000</Text>
-                        <Text style={styles.textShippingCostTotal}>Sub Total Rp 40.000</Text>
+                        <Text style={styles.textShippingCost}>Biaya Kirim Rp {item.section.expedition_price.toLocaleString('id-ID')}</Text>
+                        <Text style={styles.textShippingCostTotal}>Sub Total Rp {item.section.data.reduce((total, item) => { return total + (item.price * item.stock) }, item.section.expedition_price).toLocaleString('id-ID')}</Text>
                      </View>
                   </View>
                )}
                ListFooterComponent={() =>
                   <View style={styles.containerBottomItem}>
-                     <Text style={styles.textTotal}>Total Rp 70.000</Text>
+                     <Text style={styles.textTotal}>Total Rp {dataTransaction[0].total_price.toLocaleString('id-ID')}</Text>
                   </View>
                }
             />

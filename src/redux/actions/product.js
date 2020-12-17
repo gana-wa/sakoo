@@ -42,3 +42,30 @@ export const setExpedition = (data) => {
       payload: data,
    };
 };
+
+export const addTransaction = (data) => {
+   return {
+      type: actions.addTransaction,
+      payload: api.addTransaction(data),
+   };
+};
+
+export const clearState = () => {
+   return {
+      type: actions.clearState,
+   };
+};
+
+export const fetchTransaction = (id) => {
+   return {
+      type: actions.fetchTransaction,
+      payload: api.fetchTransaction(id),
+   };
+};
+
+export const getMoreTransaction = (id, page) => {
+   return {
+      type: actions.getMoreTransaction,
+      payload: api.getMoreTransaction(id, page),
+   };
+};

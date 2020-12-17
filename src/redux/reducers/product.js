@@ -5,6 +5,8 @@ const initialState = {
    productDetail: {},
    cart: [],
    shipment: [],
+   transaction: [],
+   message: '',
    isPending: false,
    isSuccess: false,
    isRejected: false,
@@ -134,7 +136,96 @@ const productReducer = (state = initialState, action) => {
                   cart: newCart,
                }
             }
-
+         };
+      // transaction -------------------------------------
+      case actions.addTransaction + actions.pending:
+         return {
+            ...state,
+            isPending: true,
+            isSuccess: false,
+            isRejected: false,
+         };
+      case actions.addTransaction + actions.rejected:
+         return {
+            ...state,
+            isPending: false,
+            isSuccess: false,
+            isRejected: true,
+         };
+      case actions.addTransaction + actions.fulfilled:
+         if (action.payload.data.message === 'create transaction') {
+            return {
+               ...state,
+               isPending: false,
+               isSuccess: true,
+               isRejected: false,
+               message: 'Transaksi Berhasil',
+            };
+         } else {
+            return {
+               ...state,
+               isPending: false,
+               isSuccess: false,
+               isRejected: false,
+               message: 'Transaksi Gagal',
+            };
+         }
+      // clear ------------------------------------
+      case actions.clearState:
+         return {
+            ...state,
+            productDetail: {},
+            cart: [],
+            message: '',
+            isPending: false,
+            isSuccess: false,
+            isRejected: false,
+         }
+      // list transaction ------------------------------------------------
+      case actions.fetchTransaction + actions.pending:
+         return {
+            ...state,
+            isPending: true,
+            isSuccess: false,
+            isRejected: false,
+         };
+      case actions.fetchTransaction + actions.rejected:
+         return {
+            ...state,
+            isPending: false,
+            isSuccess: false,
+            isRejected: true,
+         };
+      case actions.fetchTransaction + actions.fulfilled:
+         return {
+            ...state,
+            isPending: false,
+            isSuccess: true,
+            isRejected: false,
+            transaction: action.payload.data.data,
+         };
+      // -----------
+      case actions.getMoreTransaction + actions.pending:
+         return {
+            ...state,
+            isPending: true,
+            isSuccess: false,
+            isRejected: false,
+         };
+      case actions.getMoreTransaction + actions.rejected:
+         return {
+            ...state,
+            isPending: false,
+            isSuccess: false,
+            isRejected: true,
+         };
+      case actions.getMoreTransaction + actions.fulfilled:
+         return {
+            ...state,
+            isPending: false,
+            isSuccess: true,
+            isRejected: false,
+            transaction: state.transaction.concat(action.payload.data.data),
          };
       default:
          return state;

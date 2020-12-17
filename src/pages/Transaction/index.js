@@ -1,34 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { TransactionItem } from '../../components';
+import { fetchTransaction, getMoreTransaction } from '../../redux/actions/product';
 
-const DATA = [
-   {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      productName: 'First Item',
-      price: "10.000",
-   },
-   {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      productName: 'Second Item',
-      price: "10.000",
-   },
-   {
-      id: '1',
-      productName: 'Third Item',
-      price: "10.000",
-   },
-];
 
 const Transaction = ({ navigation }) => {
+   const dispatch = useDispatch();
+
+   const id = 'udin10101997';
+
+   useEffect(() => {
+      dispatch(fetchTransaction(id));
+   }, [])
+
+   const [page, setPage] = useState(2);
+
+
+   const getMoreTransactionFunc = () => {
+      setPage(page + 1);
+      dispatch(getMoreTransaction(id, page));
+   };
+
+   const listTransaction = useSelector(state => state.productReducer.transaction)
+
    const renderItem = ({ item }) => (
-      <TransactionItem productName={item.productName} price={item.price} navigation={navigation} />
+      <TransactionItem invoice={item.invoice_number} itemId={item.id} price={item.total_price} date={item.updated_at} navigation={navigation} transactionId={item.id} />
    );
    return (
       <SafeAreaView>
          <FlatList
-            data={DATA}
+            data={listTransaction}
             renderItem={renderItem}
+            onEndReached={getMoreTransactionFunc}
+            onEndReachedThreshold={0.5}
          />
       </SafeAreaView>
    )

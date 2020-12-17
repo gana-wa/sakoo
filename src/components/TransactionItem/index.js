@@ -1,17 +1,18 @@
 import React from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import defaultImg from '../../assets/Dummy/default.png'
+import moment from 'moment'
 
-const TransactionItem = ({ navigation, productName, price, discount }) => {
+const TransactionItem = ({ navigation, invoice, price, date, itemId }) => {
    return (
-      <Pressable onPress={() => navigation.navigate('Detail Transaksi')}>
+      <Pressable onPress={() => navigation.navigate('Detail Transaksi', { itemId: itemId })}>
          <View style={styles.containerProduct}>
             <View style={styles.containerTextProduct}>
-               <Text style={styles.textItem}>{productName}</Text>
-               <Text style={{ ...styles.textItem, fontWeight: 'bold' }}>{`Rp ${price}`}</Text>
+               <Text style={styles.textItem}>{invoice}</Text>
+               <Text style={{ ...styles.textItem, fontWeight: 'bold' }}>{`Rp ${price.toLocaleString('id-ID')}`}</Text>
             </View>
             <View>
-               <Text style={styles.textItem}>26 Mei 2020</Text>
+               <Text style={styles.textItem}>{moment(date).format("D MMMM YYYY")}</Text>
             </View>
          </View>
       </Pressable>

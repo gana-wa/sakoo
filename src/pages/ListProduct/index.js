@@ -23,7 +23,7 @@ const DATA = [
 
 const ListProduct = ({ navigation }) => {
    const renderItem = ({ item }) => (
-      <ProductItem productName={item.name} image={item.image} price={item.price} discount={item.voucher ? (item.voucher.name) : (null)} navigation={navigation} />
+      <ProductItem productName={item.name} productId={item.id} productCode={item.code} image={item.image} price={item.price} discount={item.voucher ? (item.voucher.name) : (null)} navigation={navigation} />
    );
 
    const productReducer = useSelector(state => state.productReducer.product)

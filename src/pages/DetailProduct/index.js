@@ -1,18 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, SafeAreaView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import defaultImg from '../../assets/Dummy/default.png'
 import { Header } from '../../components'
+import { fetchProductDetail } from '../../redux/actions/product'
 
-const DetailProduct = ({ navigation }) => {
+const DetailProduct = ({ navigation, route }) => {
+   const { productId } = route.params;
+   const dispatch = useDispatch();
+   useEffect(() => {
+      dispatch(fetchProductDetail(productId));
+   }, []);
+   const product = useSelector(state => state.productReducer.productDetail);
+   const discount = product.voucher ? (Number(product.price - (product.price * (product.voucher.value / 100))).toLocaleString('id-ID')) : ('');
    return (
       <SafeAreaView style={styles.containerMain}>
          <Header headerText="Detail Produk" canGoBack={true} navigation={navigation} />
-         <Image source={defaultImg} style={{ height: 300, width: '100%' }} />
+         <Image source={{ uri: product.image }} style={{ height: 300, width: '100%' }} />
          <View style={styles.containerItem}>
-            <Text style={styles.textName}>Nama Barang - Kode Barang</Text>
-            <Text style={styles.textName, { fontWeight: 'bold' }}>Rp 10.000 - (Harga diskon jika ada)</Text>
-            <Text style={styles.textName}>Nama Toko - Alamat toko</Text>
-            <Text style={styles.textName}>Deskripsi Barang</Text>
+            <Text style={styles.textName}>{`${product.name} - ${product.code}`}</Text>
+            <Text style={styles.textName, { fontWeight: 'bold' }}>{`Rp ${product.price.toLocaleString('id-ID')} - ${discount}`}</Text>
+            <Text style={styles.textName}>{`${product.store.name} - ${product.store.province}`}</Text>
+            <Text style={styles.textName}>{`${product.description}`}</Text>
          </View>
          <View style={styles.containerCounter}>
             <TouchableHighlight style={styles.buttonCounterDisabled}>
